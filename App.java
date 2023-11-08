@@ -20,12 +20,6 @@ public class App {
         File[] files = directory.listFiles();
 
         if (files != null) {
-            double averageMAE = 0.0;
-            double averageMSE = 0.0;
-            double averagePSNR = 0.0;
-            double averageByteSave = 0.0;
-            double minByteSave = 0.0;
-
             for (File file : files) {
                 if (file.isFile()) {
                     String imageName = file.getName();
@@ -76,8 +70,6 @@ public class App {
                     
                     //Find the Difference
                     long differenceInFileSize = originalFileSize - compressedFileSize;
-                    averageByteSave = (averageByteSave + differenceInFileSize) / 2;
-                    if (differenceInFileSize < minByteSave) { minByteSave = differenceInFileSize;}
                     System.out.println("Bytes saved from compression of " + imageName + ": " + differenceInFileSize + " bytes"); 
 
                     // start decompress timer
@@ -102,31 +94,19 @@ public class App {
 
                     //calculate MAE
                     double MAE = MAECalculator.calculateMAE(originalimage, decompressedimage);
-                    averageMAE = (averageMAE + MAE) /2;
                     System.out.println("Mean Absolute Error of :" + imageName + " is " + MAE) ;
 
                     //calculate MSE
                     double MSE = MSECalculator.calculateMSE(originalimage, decompressedimage);
-                    averageMSE = (averageMSE + MSE) /2;
                     System.out.println("Mean Squared Error of :" + imageName + " is " + MSE) ;                  
 
                     //calculate PSNR
                     double PSNR = PSNRCalculator.calculatePSNR(originalimage, decompressedimage);
-                    averagePSNR = (averagePSNR + PSNR) /2;
                     System.out.println("PSNR of :" + imageName + " is " + PSNR);   
 
                 }
             }
-
-            System.out.println("AVG Byte Save is " + averageByteSave) ;
-            System.out.println("MIN Byte Save is " + minByteSave) ;
-            System.out.println("AVG Mean Absolute Error is " + averageMAE) ;
-            System.out.println("AVG Mean Squared Error is " + averageMSE) ;      
-            System.out.println("AVG PSNR is " + averagePSNR);   
         }
 
     }
 }
-
-
-        
